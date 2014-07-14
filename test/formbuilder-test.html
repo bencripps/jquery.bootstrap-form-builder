@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta charset="utf-8">
+
+<title>jQuery Bootstrap Form Builder</title>
+
+<meta name="description" content="jquery plugin for creating bootstrap forms">
+
+<meta name="author" content="benjamin cripps">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/mocha/1.20.1/mocha.css">
+
+<style type="text/css">
+	
+	#hider {
+		display: none;
+	}
+
+</style>
+
+</head>
+
+<body>
+
+	<div id='hider'>
+
+		<div id='test1'></div>
+		<div id='test2'></div>
+		<div id='test3'></div>
+		<div id='test4'></div>
+		<div id='test5'></div>
+		<div id='test6'></div>
+
+	</div>
+
+	<div id='mocha'><p><a href=".">Index</a></p></div>
+
+	<div id='messages'></div>
+
+	<div id='fixtures'></div>
+
+
+</body>
+
+<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+<script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/mocha/1.20.1/mocha.js'></script>
+
+<script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/chai/1.9.1/chai.min.js'></script>
+
+<script type="text/javascript" src='../jquery.bootstrap-form-builder.js'></script>
+
+<script type="text/javascript"> mocha.setup('bdd'); </script>
+
+<script type="text/javascript" src='formbuilder-test.js'></script>
+
+<script type="text/javascript"> mocha.run(); </script>
+
+</html>
