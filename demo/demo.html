@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+<head>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta charset="utf-8">
+
+<title>jQuery Bootstrap Form Builder</title>
+
+<meta name="description" content="jquery plugin for creating bootstrap forms">
+
+<meta name="author" content="benjamin cripps">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- bootstrap css is required --> <!-- the additional theme is not necessary, but can be used -->
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/cerulean.css">
+
+<!--[if lt IE 9]>
+<script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<style type="text/css">
+
+#form {
+    width: 500px;
+    margin: 0px auto;
+}
+
+.comment {
+    border: 1px solid gray;
+    padding:10px;
+    border-radius: 10px;
+}
+
+pre {
+    overflow: auto;
+    word-wrap: normal;
+    white-space: pre;
+}
+
+span#header {
+    color: white;
+    margin-left: 10px;
+}
+
+#headerButtons {
+    margin-right: 30px;
+    margin-top: 8px;
+}
+
+.fixed {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+
+h1.page-header {
+    padding-top: 20px;
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default fixed" role="navigation">
+        <div class="navbar-header">
+            <span id='header'>jQuery.Bootstrap Form Builder</span>
+        </div>
+
+            <span id='headerButtons' class='nav navbar-nav navbar-right'>
+
+                <button class='btn btn-sm btn-success menuButton' id='examples'>Examples</button>
+                <button class='btn btn-sm btn-warning menuButton' id='docs'>Documentation</button>
+                <button class='btn btn-sm btn-info menuButton' id='about'>About</button>
+
+            </span>
+
+        </div>
+
+    </nav>
+
+    <div class='container text-center'>
+
+        <h1 class='page-header'>jQuery.Bootstrap Form Builder</h1>
+
+    </div>
+
+    <div class='container'>
+
+        <h3>
+
+            Look everyone knows <a href="//getbootstrap.com">bootstrap</a> is awesome, but that doesn't mean creating forms isn't a pain. How many divs are required? Does the label come before the radio button, or after? I was tired of looking at the bootstrap docs everytime I needed a form, and I bet you were too. Boostrap Form Builder is a small plugin which creates bootstrap forms by processing user defined JSON elements. Take a look at some examples and give it a try.
+        </h3>
+
+    </div>
+
+    <div class='container'>
+
+        <h2 class='page-header' id='examplesDiv'>Examples</h2>
+
+        <h4>A Complex Form</h4>
+
+        <p class='row' id='complexExample'>
+
+            <div id="complexForm" class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre style="font-size: 12px;">
+$('#complexForm').bootstrapForm({
+        align: 'block',
+
+        formInputs: [
+
+            {type: 'text', attr: {
+                placeholder: 'benjamin', 
+                validationState: 'success',
+                helpblock: 'enter your first name',
+                id: 'firstName',
+                name: 'inputforName', 
+                label: 'First Name' } 
+            },
+
+            {type: 'text', attr: {
+                placeholder: 'cripps',
+                validationState: 'success',
+                helpblock: 'please enter first name',
+                name: 'lastName',
+                label: 'Last Name'
+                }
+            },
+
+            {type: 'radio', attr: {
+                label: 'select your favorite food.', 
+                radios: [ 
+                    { id: 'id1', name: 'radios', label: 'pizza' }, 
+                    { id: 'id1', name: 'radios', label: 'tacos' }, 
+                    { id: 'id1', name: 'radios', label: 'wings' } 
+                ]}
+            },
+
+            {type: 'select', attr: {
+                helpblock: 'I bet your favorite isn\'t listed.',
+                
+                label: 'What is your favorite band?',
+                options: [ 
+                    {value: 'value1', text: 'The Wonder Years' }, 
+                    {value: 'value2', text: 'Polar Bear Club' }, 
+                    {value: 'value3', text: 'Frank Turner' } ] 
+                }
+            }
+
+            ],
+
+        buttons: [ 
+            {   size: 'lg', 
+                validationState: 'success', 
+                id: 'submit', 
+                text: 'Submit Form', 
+                onSubmit: function(values) { console.log(values) }
+            },
+            {   size: 'lg', 
+                validationState: 'danger', 
+                id: 'erase', 
+                text: 'Erase Form',
+                onSubmit: function(values) { alert('hi') }
+            }
+         ]
+
+});
+</pre>
+
+
+            </div>
+
+    </div>
+    
+    <div class='container'> 
+
+        <h4>Text Inputs</h4>
+
+        <p class='row' id='textInputExample'>
+
+            <div id='simpleTextInput' class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre>
+$('#simpleTextInput').bootstrapForm({ 
+    formInputs: [ 
+        {type: 'text', attr: { 
+            placeholder: 'see the docs for more details',
+            id: 'simpleTextInput',
+            helpblock: 'help blocks are optional',
+            label: 'labels are optional as well',
+            validationState: 'success' }
+        }
+    ]
+});
+</pre>
+    
+        </div>
+
+
+        </p>
+
+        <p class='row'>
+
+            <h5 class='comment'>
+                <p>The formInputs argument accepts an array of objects which contain the attributes for each input. There are no required attributes for an input. <span class='text-danger'>However, if a name is not given, a random value will be assigned by the plugin. If an ID is not defined, the ID will be replaced by the supplied name or a random ID if a name was not defined.</span></p>
+
+                <p>The text input can also be replaced by other text-type inputs. The following are accepted: <span class='text-warning'>text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color.</span></p>
+            </h5>
+
+        </p>
+
+    </div> 
+
+    <div class='container'> 
+
+        <h4>Radio Buttons</h4>
+
+        <p class='row' id='radioExample'>
+
+            <div id='radioInput' class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre>
+$('#radioInput').bootstrapForm({
+        formInputs: [
+            {type: 'radio', attr: {
+                helpblock: 'Labels are optional.', 
+                radios: [ 
+                    { id: 'radio1', name: 'radioEx', label: 'Choice 1' }, 
+                    { id: 'radio2', name: 'radioEx', label: 'Choice 2' }, 
+                    { id: 'radio3', name: 'radioEx', label: 'Choice 3' } 
+                ]}
+            },
+        ]
+});
+</pre>
+    
+        </div>
+
+
+        </p>
+
+        <p class='row'>
+
+            <h5 class='comment'>Radio buttons have a few quirks--in order to function, they require a name (which groups the buttons together). <span class='text-warning'>If one is not defined, a random value will be assigned by the plugin.</span>
+            </h5>
+
+        </p>
+
+    </div>
+
+    <div class='container'> 
+
+        <h4>Check Boxes</h4>
+
+        <p class='row' id='checkboxExample'>
+
+            <div id='checkboxInput' class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre>
+$('#checkboxInput').bootstrapForm({
+        formInputs: [
+            {type: 'checkbox', attr: {
+                helpblock: 'Labels are optional.', 
+                checkboxes: [ 
+                    { id: 'radio1', name: 'checkboxEx', label: 'Choice' }, 
+                    { id: 'radio2', name: 'checkboxEx', label: 'Choice' }, 
+                    { id: 'radio3', name: 'checkboxEx', label: 'Choice' } 
+                ]}
+            }
+        ]
+});
+</pre>
+    
+        </div>
+
+
+        </p>
+
+        <p class='row'>
+
+            <h5 class='comment'>Check boxes work exactly like radio buttons.
+            </h5>
+
+        </p>
+
+    </div>
+
+    <div class='container'> 
+
+        <h4>Selects/Multiselects</h4>
+
+        <p class='row' id='checkboxExample'>
+
+            <div id='selectInput' class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre>
+$('#selectInput').bootstrapForm({
+        formInputs: [
+            {type: 'select', attr: {
+                helpblock: 'Selects too?',
+                id: 'select',
+                label: 'This is not a multiselect.',
+                options: [ 
+                    {value: 'value1', text: 'value1' }, 
+                    {value: 'value2', text: 'value2' }, 
+                    {value: 'value3', text: 'value3' } 
+                ] 
+                }
+            }
+        ]
+});
+</pre>
+    
+        </div>
+
+
+        </p>
+
+        <p class='row'>
+
+            <h5 class='comment'>Selects require options which are provided as an array of objects. These can be hardcoded, or generated dynamically. Multiselects are generated using the same JSON, except type: 'multiselect', and not 'select'.
+            </h5>
+
+        </p>
+
+    </div> 
+
+    <div class='container'> 
+
+        <h4>Buttons</h4>
+
+        <p class='row' id='checkboxExample'>
+
+            <div id='buttonsInput' class='col-xs-3'></div>
+
+            <div class='col-xs-9'>
+<pre>
+$('#buttonsInput').bootstrapForm({
+        buttons: [ 
+            { size: 'sm', 
+                validationState: 'success', 
+                id: 'success', 
+                text: 'Success!',
+                onSubmit: function( values ) { alert('this is just a button!')}},
+
+            { size: 'lg', validationState: 'warning', id: 'warning', text: 'Warning!'},
+         ]
+});
+</pre>
+    
+        </div>
+
+
+        </p>
+
+        <p class='row'>
+
+            <h5 class='comment'>
+                Bootstrap buttons accept a few parameters including ID, text, size, and validation type. Buttons are passed in as an array of objects. Buttons are inserted within a bootstrap 'row' class so they will not interfere with other elements. Custom functons can be assigned to each button, with the form values assigned as the first argument of the function.
+            </h5>
+
+        </p>
+
+    </div> 
+
+    <div class='container'>
+
+        <h2 class='page-header' id='docsDiv'>Documentation</h2>
+
+        <div class='row'>
+            
+            <h3>Create a Form</h3>
+
+            <div class='col-xs-3'>
+
+                <h5>To create a form, simply create an empty div with an ID. The form will be created and nested within that div. A functioning link rel tag pointing to a valid Bootstrap .css file is necessary for styling.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+Javascript:
+$('#someID').bootstrapForm({ options })
+
+HTML:
+&lt;link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"&gt;
+
+                </pre>
+
+            </div>     
+
+        </div>    
+
+        <div class='row'>
+            <h3>Text Inputs</h3>
+            <div class='col-xs-3'>
+
+                <h5>The accepted text inputs are: </h5>
+
+                <ul>
+                    <li>text</li>
+                    <li>password</li>
+                    <li>datetime</li>
+                    <li>datetime-local</li>
+                    <li>date</li>
+                    <li>month</li>
+                    <li>time</li>
+                    <li>week</li>
+                    <li>number</li>
+                    <li>email</li>
+                    <li>url</li>
+                    <li>search</li>
+                    <li>tel</li>
+                    <li>color</li>
+                </ul>
+            </div>
+            <div class='col-xs-9'>
+
+                <pre>
+
+
+
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+        {type: 'text', attr: { - <b><span class='text-danger'>required</span> (string) </b>
+            placeholder: 'placeholder', - <b>optional ( string )</b>
+            validationState: 'success', - <b>optional (string) ( success | warning | danger )</b>
+            helpblock: 'enter your first name', - <b>optional ( string )</b>
+            id: 'firstName', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+            name: 'inputforName', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+            label: 'First Name' } - <b>optional ( string )</b>
+        }
+    ]
+});
+            </pre>
+
+        </div>
+
+        <div class='row'>
+            <h3>Selects / Multiselects</h3>
+            <div class='col-xs-3'>
+
+                <h5>Selects and Multiselects are created using the same syntax.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+        {type: 'select', - <b><span class='text-danger'>required</span> (string) ( select | multiple )</b>
+                attr: { 
+                name: 'SelectName', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                id: 'SelectID', <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                helpblock: 'I bet your favorite isn\'t listed.', - <b>optional ( string )</b>
+                label: 'What is your favorite band?', - <b>optional ( string )</b>
+                options: [ - <b><span class='text-danger'>required</span> ( string )</b>
+
+                    {value: 'value1', text: 'The Wonder Years' }, - <b>( object ) { value: "", text: "" }</b>
+                    {value: 'value2', text: 'Polar Bear Club' }, 
+                    {value: 'value3', text: 'Frank Turner' } 
+
+                    ] 
+                }
+        }
+    ]
+});
+
+                </pre>
+
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <h3>Radio Buttons</h3>
+            <div class='col-xs-3'>
+
+                <h5>Radio buttons are generated in groups, as an array of objects. If a name is not defined, a random value will be assigned to each radio button in the group.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+        {type: 'radio',  - <b><span class='text-danger'>required</span> (string) </b>
+                attr: {
+                helpblock: 'what is your favorite food?',  - <b>optional (string) </b>
+                label: 'maybe a label?',  - <b>optional (string) </b>
+                radios: [ 
+                    { id: 'id1', name: 'radios', label: 'pizza' },  - <b>( object ) { id: "", name: "", label: "" }</b>
+                    { id: 'id1', name: 'radios', label: 'tacos' }, 
+                    { id: 'id1', name: 'radios', label: 'wings' } 
+                    ]
+                }
+        }
+    ]
+});
+                </pre>
+
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <h3>Checkboxes</h3>
+            <div class='col-xs-3'>
+
+                <h5>Checkboxes work exactly like radio buttons except they random names assigned will not be identical because they are independent nodes.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+         {type: 'checkbox',  - <b><span class='text-danger'>required</span> (string) </b>
+                attr: {
+                    helpblock: 'helpblocks are optional.', - <b>optional (string) </b>
+                    label: 'labels?',  - <b>optional (string) </b>
+                    checkboxes: [ 
+                        { id: 'check1', name: 'checkboxEx', label: 'Choice' }, - <b>( object ) { id: "", name: "", label: "" }</b>
+                        { id: 'check2', name: 'checkboxEx', label: 'Choice' }, 
+                        { id: 'check3', name: 'checkboxEx', label: 'Choice' } 
+                    ]
+                }
+        }
+    ]
+});              
+                </pre>
+
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <h3>File</h3>
+            <div class='col-xs-3'>
+
+                <h5>Nothing funny about a file. Pretty standard.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+        {type: 'file', - <b><span class='text-danger'>required</span> (string) </b>
+            attr: {
+                placeholder: 'this is file upload', - <b>optional (string) </b>
+                name: 'fileuploader', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                id: 'fileId', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                helpblock: 'help!', - <b>optional (string) </b>
+                label: 'please upload' - <b>optional (string) </b>
+            }
+        }
+    ]
+
+});                
+                </pre>
+
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <h3>Textarea</h3>
+            <div class='col-xs-3'>
+
+                <h5>Textareas work the same way as other inputs except they also accept a 'rows' parameter which will define the height of the input.</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+$('#someID').bootstrapForm({
+
+    formInputs: [
+
+        {type: 'textarea', - <b><span class='text-danger'>required</span> (string) </b>
+            attr: {
+                placeholder: 'text here', - <b>optional (string) </b>
+                rows: '3', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                name: 'textArea1', - <b><span class='text-danger'>*optional</span> ( string, a random value will be assigned if undefined )</b>
+                id: 'textArea1', - <b>optional (string) </b>
+                helpblock: 'some text goes here', - <b>optional (string) </b>
+                label: 'textLabel' - <b>optional (string) </b>
+            }
+        }
+    ]
+
+});                
+                </pre>
+
+            </div>
+
+        </div> 
+
+
+    </div>
+
+    <div class='row'>
+            <h3>Buttons</h3>
+            <div class='col-xs-3'>
+
+                <h5>Buttons are defined in a separate array from text inputs. Users can define a custom callback function using 'onsubmit'. The single argument available for this function is the form values serialized into an array (using the jQuery .serialize() function).</h5>
+
+            </div>
+
+            <div class='col-xs-9'>
+
+                <pre>
+$('#someID').bootstrapForm({
+    
+    formInputs: [],
+
+    buttons: [ 
+            { size: 'sm', <b>optional (string) ( sm | md | lg ) default: lg </b>
+                validationState: 'success', - <b>optional (string) ( success | warning | danger )</b>
+                id: 'submit', - <b><span class='text-danger'>*optional</span> ( string, an ID must be defined to use the onSubmit function )</b>
+                text: 'Submit Form', - <b>optional (string) default: submit </b>
+                onSubmit: function(values) { console.log(values) } - <b>optional (function) arg: values </b>
+            }
+    ]
+
+});                
+                </pre>
+
+            </div>
+
+        </div> 
+
+
+    </div>
+
+    <div class='container'>
+
+        <h2 class='page-header' id='aboutDiv'>About</h2>
+
+        <h5>jQuery Boostrap Form Builder was developed by Benjamin Cripps and is protected under the MIT License. For more information about the author you can check out his homepage @ <a href="//benjamincripps.com">www.benjamincripps.com</a><h5>
+
+        <h5>If you'd like to contribute, the code is freely available on <a href="//github.com/bencripps/jQuery.Bootstrap-Form-Builder">github</a>. Fork on!</h5>
+
+        <h5>Copyright (c) 2014 Benjamin Cripps</h5>
+
+
+    </div>    
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src='../jquery.bootstrap-form-builder.js'></script>
+
+<script type="text/javascript">
+
+$(window).ready( function() {
+
+    //complex
+    $('#complexForm').bootstrapForm({
+        align: 'block',
+
+        formInputs: [
+
+            {type: 'text', attr: {
+                placeholder: 'benjamin', 
+                validationState: 'success',
+                helpblock: 'enter your first name',
+                id: 'firstName',
+                name: 'inputforName', 
+                label: 'First Name' } 
+            },
+
+            {type: 'text', attr: {
+                placeholder: 'cripps',
+                validationState: 'success',
+                helpblock: 'please enter first name',
+                name: 'lastName',
+                label: 'Last Name'
+                }
+            },
+
+            {type: 'radio', attr: {
+                label: 'select your favorite food.', 
+                radios: [ 
+                    { id: 'id1', name: 'radios', label: 'pizza' }, 
+                    { id: 'id1', name: 'radios', label: 'tacos' }, 
+                    { id: 'id1', name: 'radios', label: 'wings' } 
+                ]}
+            },
+
+            {type: 'select', attr: {
+                helpblock: 'I bet your favorite isn\'t listed.',
+                
+                label: 'What is your favorite band?',
+                options: [ 
+                    {value: 'value1', text: 'The Wonder Years' }, 
+                    {value: 'value2', text: 'Polar Bear Club' }, 
+                    {value: 'value3', text: 'Frank Turner' } ] 
+                }
+            }
+
+            ],
+
+        buttons: [ 
+            {   size: 'lg', 
+                validationState: 'success', 
+                id: 'submit', 
+                text: 'Submit Form', 
+                onSubmit: function(values) { console.log(values) }
+            },
+            {   size: 'lg', 
+                validationState: 'danger', 
+                id: 'erase', 
+                text: 'Erase Form',
+                onSubmit: function(values) { alert('hi') }
+            }
+         ]
+
+    });
+
+    //text input
+    $('#simpleTextInput').bootstrapForm({ 
+        formInputs: [ 
+            {type: 'text', attr: { 
+                placeholder: 'see the docs for more details',
+                id: 'simpleTextInput',
+                helpblock: 'help blocks are optional',
+                label: 'labels are optional as well',
+                validationState: 'success'}
+            }
+        ]
+    });
+
+    //radio
+    $('#radioInput').bootstrapForm({
+        formInputs: [
+            {type: 'radio', attr: {
+                helpblock: 'Labels are optional.', 
+                radios: [ 
+                    { id: 'radio1', name: 'radioEx', label: 'Choice 1' }, 
+                    { id: 'radio2', name: 'radioEx', label: 'Choice 2' }, 
+                    { id: 'radio3', name: 'radioEx', label: 'Choice 3' } 
+                ]}
+            },
+        ]
+    });
+
+    //checkbox
+    $('#checkboxInput').bootstrapForm({
+        formInputs: [
+            {type: 'checkbox', attr: {
+                helpblock: 'Labels are optional.', 
+                checkboxes: [ 
+                    { id: 'radio1', name: 'checkboxEx', label: 'Choice' }, 
+                    { id: 'radio2', name: 'checkboxEx', label: 'Choice' }, 
+                    { id: 'radio3', name: 'checkboxEx', label: 'Choice' } 
+                ]}
+            },
+        ]
+    });
+
+    //select
+    $('#selectInput').bootstrapForm({
+        formInputs: [
+            {type: 'select', attr: {
+                helpblock: 'Selects too?',
+                id: 'select',
+                label: 'This is not a multiselect.',
+                options: [ {value: 'value1', text: 'value1' }, {value: 'value2', text: 'value2' }, {value: 'value3', text: 'value3' } ] 
+                }
+            }
+        ]
+    });
+
+    $('#buttonsInput').bootstrapForm({
+        buttons: [ 
+            { size: 'sm', 
+                validationState: 'success', 
+                id: 'success', 
+                text: 'Success!',
+                onSubmit: function( values) { alert('this is just a button!')}},
+            { size: 'lg', validationState: 'warning', id: 'warning', text: 'Warning!'},
+         ]
+    });
+
+    var scrollToPosition = function( event ) {
+
+        var buttonID = event.target.id;
+
+        switch ( buttonID ) {
+
+            case 'about':
+
+                $('html, body').animate({ scrollTop: $("#aboutDiv").offset().top - 100 }, 1000);
+                break;
+
+            case 'docs':
+
+                $('html, body').animate({ scrollTop: $("#docsDiv").offset().top - 100 }, 1000);
+                break;
+            
+            case 'examples':
+
+                $('html, body').animate({ scrollTop: $("#examplesDiv").offset().top - 100 }, 1000);
+                break;
+
+        }
+    }
+
+    //page script
+    $('.menuButton').on('click', scrollToPosition );
+
+});
+
+
+</script>
+
+</html>
