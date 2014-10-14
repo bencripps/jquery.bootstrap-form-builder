@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'>
+
+<!-- styles begin -->
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<!-- styles end -->
+
+</head>
+<body>
+
+
+<div class='container-fluid'>
+	<div class='row'>
+		<div class="col-lg-2">
+			<h1>Navigation</h1>
+			<ul>
+				<li><a href="#demo">Demo</a></li>
+				<li><a href="#json">JSON</a></li>
+				<li><a href="#code">Code</a></li>
+			</ul>
+		</div>	
+		<div class="col-lg-10">
+			<a name='demo'><h1>Demo</h1></a>
+			<div id='app-page-demo'></div>
+		</div>
+	</div>  
+	<div class='row'>
+		<div class="col-lg-6">
+			<a name='json'><h1>Data (json)</h1></a>
+			[<a target="_blank" href='data.js'>view source</a>]
+			<pre id='app-page-json'></pre>
+		</div>   
+		<div class="col-lg-6">
+			<a name='code'><h1>App (Code)</h1></a>
+			[<a target="_blank" href='app.js'>view source</a>]
+			<pre id='app-page-code'></pre>
+		</div>		
+	</div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+<script type="text/javascript" src="../../libs/jQuery-Mask-Plugin-master/jquery.mask.min.js"></script>
+<script type="text/javascript" src="../../libs/stringify-extension/stringify.js"></script>
+
+<script type="text/javascript" src="../../src/jQuery-Tools-Form-Builder.js"></script>
+
+<script type="text/javascript" src="data.js"></script><!-- data (json) -->
+<script type="text/javascript" src="app.js"></script><!-- app (code) -->
+
+<script type="text/javascript">
+
+$(document).ready(function()
+                  {
+					
+                      
+                      $('#app-page-code')
+                    	.append(
+							stringify(app.run, 'run')
+						);                            
+                      
+                      $('#app-page-json')
+						.append(
+							stringify(json_data, 'json_data')
+						);     
+                      
+                      app.run($('#app-page-demo'));                      
+                  }
+                 ) 
+</script>
+</body>
+</html>

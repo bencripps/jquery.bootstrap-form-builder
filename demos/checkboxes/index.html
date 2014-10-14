@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='utf-8'>
+
+<!-- styles begin -->
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<!-- styles end -->
+
+</head>
+<body>
+
+
+<div class='container-fluid'>
+	<div class='row'>
+		<div class="col-lg-12">
+			[<a target="_blank" href='app.js'>view source</a>]
+		</div>
+	</div>
+	<div class='row'>
+		<div class="col-sm-4">
+			<a name='demo'><h1>Demo</h1></a>
+			<div id='app-page-demo'></div>
+		</div>  
+		<div class="col-sm-8">
+			<a name='code'><h1>Code</h1></a>
+			<pre id='app-page-code'></pre>		
+		</div>   
+	</div>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+<script type="text/javascript" src="../../libs/jQuery-Mask-Plugin-master/jquery.mask.min.js"></script>
+<script type="text/javascript" src="../../libs/stringify-extension/stringify.js"></script>
+
+<script type="text/javascript" src="../../src/jQuery-Tools-Form-Builder.js"></script>
+
+<script type="text/javascript" src="app.js"></script><!-- app (code) -->
+
+<script type="text/javascript">
+
+	$(document).ready(
+		function(){
+					
+			$('#app-page-code')
+				.append(
+					"$(document).ready(" + 
+						stringify(app.run) +
+					");"
+				);
+		}
+	); 
+</script>
+</body>
+</html>
