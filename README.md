@@ -1,4 +1,4 @@
-jQuery-Tools-Form-Builder
+jQuery-Tools-Form-Builder/jQuery-Bootstrap-Form-Builder
 =============================
 
 A jQuery library which builds forms from JSON and includes an extendable framework that defaults to bootstrap. This work is inspired and forked from [Benjamin Cripps] (http://benjamincripps.com/) work at [bencripps@github] (https://github.com/bencripps/jQuery-Bootstrap-Form-Builder). The unique spin is the conversion to a jQuery widget, added a form building wrapper extension, adding custom dom attributes to form and fields, and added demo of form validation.
