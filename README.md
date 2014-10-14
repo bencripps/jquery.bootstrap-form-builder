@@ -1,7 +1,7 @@
 jQuery-Tools-Form-Builder
 =============================
 
-A jQuery library which builds forms from JSON and includes an extendable framework that defaults to bootstrap. This work is inspired from [Benjamin Cripps] (http://benjamincripps.com/) work at [bencripps@github] (https://github.com/bencripps/jQuery-Bootstrap-Form-Builder). The unique spin is the extension of modularity with form building process, appending extra dom attributes, and added form validation.
+A jQuery library which builds forms from JSON and includes an extendable framework that defaults to bootstrap. This work is inspired and forked from [Benjamin Cripps] (http://benjamincripps.com/) work at [bencripps@github] (https://github.com/bencripps/jQuery-Bootstrap-Form-Builder). The unique spin is the conversion to a jQuery widget, added a form building wrapper extension, adding custom dom attributes to form and fields, and added demo of form validation.
 
 For live demos and full documentation, please visit the [homepage](http://kel-nelson.github.io/jQuery-Tools-Form-Builder).
 
@@ -81,4 +81,6 @@ The argument values is an array of objects, where each object is a form element 
 Questions:
 ----------
 
-If you have any questions, please contact me at [ukcn001@gmail.com](mailto:ukcn001@gmail.com), or visit the plugin [homepage](http://kel-nelson.github.io/jQuery-Tools-Form-Builder).
+If you have any questions on this implementation, please contact me at [ukcn001@gmail.com](mailto:ukcn001@gmail.com), or visit the plugin [homepage](http://kel-nelson.github.io/jQuery-Tools-Form-Builder).
+
+For original work see [Benjamin Cripps] (http://benjamincripps.com/) work at [bencripps@github].
