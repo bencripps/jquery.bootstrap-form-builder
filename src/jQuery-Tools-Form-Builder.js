@@ -7,7 +7,8 @@
 
 	    options: {
 	    	attrs:{}, //extra form attributes
-	        fields: [],
+	        fields: [], //just fields.
+			subforms:[], //subforms + inner fields.
 	        buttons: [],
 	        field_wrapper_name:'bootstrap',
 	        //field_wrapper_function:null, //is the function that wraps form elements - used to bootstrap wrap form fields.
@@ -31,7 +32,7 @@
 	            'bootstrap': {
 	            		wrapper_func: function(form_field_element, field_obj) {
 	                    
-	                	    var _get_helper_block = function(help_text) {
+	                	    var _wrap_helper_block = function(help_text) {
 	                	        return (
 	                	        		help_text?
 	                	        				$("<p />")
@@ -49,7 +50,7 @@
 	                	       );
 	                	    };*/
 	                	
-	                	    var _get_form_field_group = function(){
+	                	    var _wrap_form_field_group = function(){
 	                	        return (
 	                	        		$("<div/>")
 	                	        			.addClass('form-group')
@@ -58,7 +59,7 @@
 	                	        );
 	                	    };
 	                	    
-	                	    var _get_label = function(text){
+	                	    var _wrap_label = function(text){
 	                	        return (
 	                	        		text?
 	                	        				$("<label/>")
@@ -67,13 +68,33 @@
 	                    				:null
 	                	        );
 	                	    };	                        
+
+							var _wrap_form_field = function(element)
+							{
+								if(field_obj.type == "text" || field_obj.type == "textarea" || field_obj.type == "select")
+								{
+									element.addClass('form-control');
+								}
+								return element;
+							}
 	                    
+	                	    this.wrap_subform = function(subform) {
+	                	        return (
+											$("<div />")
+												.addClass("row")
+												.append(
+	                	        					$("<div />")
+	                	        						.addClass("col-lg-10 col-lg-offset-1")
+	                	        						.append(subform)
+												)
+	                	        );
+	                	    };
 	                    
 		                    return (
-		                    		_get_form_field_group().append(
-		                    				_get_label(field_obj.options.label),
-		                    				form_field_element,
-		                    				_get_helper_block(field_obj.options.helpblock)
+		                    		_wrap_form_field_group().append(
+		                    				_wrap_label(field_obj.attrs.title),
+		                    				_wrap_form_field(form_field_element),
+		                    				_wrap_helper_block(field_obj.helpblock)
 		                    		)
 		                    );
 	            		}
@@ -162,7 +183,6 @@
 	        		.addClass('form-group button-set')
 	        		.append(
 	        				$("<div />")
-	        					.addClass('col-sm-12')
 	        					.append(items)
 	        		)
 	        );
@@ -181,24 +201,38 @@
 	        
 	        self._append_attrs_from_json(form, self.options.attrs);
 	        
-	        var field_groups = [];
-	        $.each(self._build_form_fields(), function(index, item)
-	        		{
+			if(self.options.subforms != null)
+			{
+				$.each(self.options.subforms, function(index, subform){	
+					form.append($("<h1/>").text(subform.title));
+					var field_groups = [];
+					$.each(self._build_form_fields(subform.fields), function(index, item){
 	        			var field_obj = item.data(self._namespace + '_field_obj');
 	        			field_groups.push(self._field_wrapper_selected.wrapper_func(item, field_obj));  
-	        		}
-	        );
-	        
-	        form.append(field_groups);
+	        		});
+					form.append(self._field_wrapper_selected.wrap_subform(field_groups));
+				});
+			}
+			else if(self.options.fields != null)
+			{
+				var field_groups = [];
+				$.each(self._build_form_fields(self.options.fields), function(index, item)
+	        			{
+	        				var field_obj = item.data(self._namespace + '_field_obj');
+	        				field_groups.push(self._field_wrapper_selected.wrapper_func(item, field_obj));
+	        			}
+				);
+				form.append(field_groups);
+			}
 	        form.append(self._build_form_buttons(self.options.buttons));
 	        return form;
 	    },
 	    
-	    _build_form_fields: function()
+	    _build_form_fields: function(fields)
 	    {
 	    	var self = this;
 	        var items = [];
-	        $.each(self.options.fields, function(index, field) {
+	        $.each(fields, function(index, field) {
 	        	field_attrs = $.extend({},field.attrs);
 	        	
 	        	field_attrs.id = (field_attrs.id?field_attrs.id:(field_attrs.name?(field_attrs.name):'form_field_' + self._get_next_auto_id()));
@@ -211,7 +245,7 @@
 	
 	                case 'radio':
 	                    item = $("<div/>");
-	                    item.append(self._create_radios(field_attrs));
+	                    item.append(self._create_radios(field));
 	                    break;
 	
 	                case 'select':
@@ -227,12 +261,12 @@
 	            					field_attrs 
 	            					//['type','multiple','required']
 	                    	);
-	                    item.append(self._create_options(field_attrs));
+	                    item.append(self._create_options(field));
 	                    break;
 	
 	                case 'checkbox':
 	                    item = $("<div />");
-	                    item.append(self._create_checkboxes(field_attrs));
+	                    item.append(self._create_checkboxes(field));
 	                    break;
 	
 	                case 'file':
@@ -339,21 +373,25 @@
 	        return element;
 	    },
 	    
-	    _create_options: function (field_attrs) {
-	    	var options = field_attrs.options;
+	    _create_options: function (field) {
+	    	var options = field.options;
+			if(!options)
+				return null;
 	        var items = [];
 	        $.each(options, function(index, option) {
 	            var item = $("<option>" +  option.label +"</option>");
-	            if(option.value)
-	                item.attr("value", option.value);
+	            item.attr("value", (option.value!=null?option.value:option.label));
 	            
 	            items.push(item);
 	        });
+			
 	        return items;
 	    },
 	    
-	    _create_checkboxes: function (field_attrs) {
-	    	var id = field_attrs.id, name = field_attrs.name, checkboxes = field_attrs.checkboxes;
+	    _create_checkboxes: function (field) {
+	    	var id = field["attrs"].id, name = field["attrs"].name, checkboxes = field.checkboxes;
+			if(!checkboxes)
+				return null;
 	    	var self = this;
 	        var items = [];
 	        $.each(checkboxes, function(index, checkbox) {
@@ -363,8 +401,8 @@
 	                    .append(
 	                        $("<label/>")
 	                        .append(
-	                            $("<input type='checkbox' value='" + (checkbox.value || checkbox.label) + "'>" + checkbox.label + "</input>")
-	                            	.addClass(field_attrs['class'])
+	                            $("<input type='checkbox' value='" + (checkbox.value!=null?checkbox.value:checkbox.label) + "'>" + checkbox.label + "</input>")
+	                            	.addClass(field["attrs"]['class'])
 	                            	.attr('name',name?name + '[' + items.length + ']':null)
 	                            	.attr('id', checkbox.id?checkbox.id:(id?(id + "[" + items.length + "]"):null))
 	                        )
@@ -374,8 +412,10 @@
 	        return items;
 	    },
 	    
-	    _create_radios: function (field_attrs) {
-	    	var id = field_attrs.id, name = field_attrs.name, radios = field_attrs.radios;
+	    _create_radios: function (field) {
+	    	var id = field["attrs"].id, name = field["attrs"].name, radios = field.radios;
+			if(!radios)
+				return null;
 	    	var self = this;
 	        var items = [];
 	        $.each(radios, function(index, radio) {
@@ -385,8 +425,8 @@
 	                    .append(
 	                        $("<label/>")
 	                        .append(
-	                            $("<input type='radio' value='" + (radio.value || radio.label) + "'>" + radio.label + "</input>")
-	                            	.addClass(field_attrs['class'])
+	                            $("<input type='radio' value='" + (radio.value!=null?radio.value:radio.label) + "'>" + radio.label + "</input>")
+	                            	.addClass(field["attrs"]['class'])
 	                            	.attr('name',name?name:null)
                     				.attr('id', radio.id?radio.id:(id?(id + "[" + items.length + "]"):null))
 	                        )
